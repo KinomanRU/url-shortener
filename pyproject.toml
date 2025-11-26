@@ -1,0 +1,13 @@
+[project]
+name = "url-shortener"
+version = "0.1.0"
+description = "URL Shortener"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.122.0",
+    "jinja2>=3.1.6",
+    "psycopg[binary,pool]>=3.2.13",
+    "sqlalchemy>=2.0.44",
+    "uvicorn>=0.38.0",
+]
