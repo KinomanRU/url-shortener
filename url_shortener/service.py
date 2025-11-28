@@ -2,7 +2,6 @@ import random
 import string
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session
 
 from config import config
 from db import new_session
@@ -33,9 +32,12 @@ async def get_url_by_slug(slug: str) -> str:
         return result.url
 
 
-async def add_url_to_db(url: str):
+async def add_url_to_db(url: str) -> str:
+    if not url.startswith(("http://", "https://")):
+        raise ValueError('URL have to start with "http://" or "https://"')
     slug = generate_slug()
     link = Link(slug=slug, url=url)
     async with new_session() as session:
         session.add(link)
         await session.commit()
+    return link.slug

@@ -53,27 +53,32 @@
     <div class="form-container">
         <form id="dataForm" method="POST">
             <div class="form-group">
-                <label for="dataInput">Введите данные:</label>
-                <input type="text" id="dataInput" name="userData" required>
+                <label for="in_url">Введите URL:</label>
+                <input type="text" id="in_url" name="in_url" required>
             </div>
-            <button type="submit">Отправить</button>
-            {% if url %}
+            <button type="submit">Сократить</button>
+            <br />
+            <br />
+            <br />
+            {#{% if full_url %}#}
                 <div class="form-group">
-                    <p>Полный URL: {{ url }}</p>
+                    <label for="out_url">Полный URL:</label>
+                    <input type="text" id="out_url" name="out_url" readonly>
                 </div>
-            {% endif %}
-            {% if short_url %}
+            {#{% endif %}#}
+            {#{% if short_url %}#}
                 <div class="form-group">
-                    <p>Короткая ссылка: <a href="{{ short_url }}">{{ short_url }}</a></p>
+                    <label for="slink">Короткая ссылка:</label>
+                    <input id="slink" type="text" name="slink" readonly>
                 </div>
-            {% endif %}
+            {#{% endif %}#}
         </form>
     </div>
 
     <script>
         // Получаем форму и поле ввода
         const form = document.getElementById('dataForm');
-        const input = document.getElementById('dataInput');
+        const input = document.getElementById('in_url');
 
         // Обработчик отправки формы
         form.addEventListener('submit', function(event) {
@@ -92,10 +97,20 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert('Данные успешно отправлены!');
+                    // alert('Данные успешно отправлены!');
+                    // document.getElementById('out_url').value = input.value;
                     input.value = ''; // Очищаем поле ввода
                 } else {
-                    alert('Ошибка при отправке данных');
+                    alert('Ошибка при отправке данных: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then (data => {
+                if (data.url) {
+                    document.getElementById('out_url').value = data.url;
+                }
+                if (data.slug) {
+                    document.getElementById('slink').value = location + data.slug;
                 }
             })
             .catch(error => {
