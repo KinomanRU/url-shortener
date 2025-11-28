@@ -8,4 +8,4 @@ class Base(DeclarativeBase):
 class Link(Base):
     __tablename__ = "t_link"
     slug: Mapped[str] = mapped_column(primary_key=True)
-    url: Mapped[str] = mapped_column(unique=True)
+    url: Mapped[str] = mapped_column()
