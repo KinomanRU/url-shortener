@@ -2,7 +2,6 @@ import asyncio
 import sys
 
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
-from fastapi import Depends
 
 from config import config
 from models import Base
@@ -14,14 +13,6 @@ new_session = async_sessionmaker(
     expire_on_commit=False,
     autoflush=False,
 )
-
-
-async def get_session():
-    async with new_session() as session:
-        yield session
-
-
-SessionDep = Depends(get_session)
 
 
 async def ddl():

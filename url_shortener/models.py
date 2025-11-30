@@ -9,3 +9,6 @@ class Link(Base):
     __tablename__ = "t_link"
     slug: Mapped[str] = mapped_column(primary_key=True)
     url: Mapped[str] = mapped_column()
+
+    def __str__(self):
+        return self.slug + " " + self.url

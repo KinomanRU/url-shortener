@@ -3,10 +3,9 @@ import logging
 import sys
 
 from fastapi import FastAPI, Request, HTTPException, status
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from starlette.responses import RedirectResponse
 
 import log_utils
 from config import BASE_DIR
@@ -67,4 +66,4 @@ if __name__ == "__main__":
     # uvicorn.run("main:app", reload=True)
     if sys.platform == "win32":
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    print(asyncio.run(get_url_by_slug("1")))
+    print(asyncio.run(get_slug_by_url("https://www.google.com/")))
