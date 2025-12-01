@@ -12,15 +12,15 @@ async def insert_row(item: Base) -> None:
         await session.commit()
 
 
-async def select_row_by_pk(entity: Type[Base], pk: Any) -> Base:
+async def select_row_by_pk(entity: Type[Base], pk: Any):
     async with new_session() as session:
         result = await session.get(entity, pk)
-        if not result:
-            raise ValueError(f"Row with primary key {pk!r} not found")
-        return result
+    if not result:
+        raise ValueError(f"Row with primary key {pk!r} not found")
+    return result
 
 
-async def select_row(entity: Type[Base], *args, **kwargs) -> Base:
+async def select_row(entity: Type[Base], *args, **kwargs):
     query = select(entity).filter_by(**kwargs)
     async with new_session() as session:
         result = await session.execute(query)

@@ -20,7 +20,7 @@ app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/")
 async def index(request: Request, slug: str = ""):
     url = ""
     if slug:
@@ -32,7 +32,7 @@ async def index(request: Request, slug: str = ""):
 
 
 @app.post("/", response_model=LinkSchema)
-async def add_url(request: Request, response_class=HTMLResponse):
+async def shorten_url(request: Request):
     data: dict = await request.json()
     if "url" not in data.keys():
         raise HTTPException(
@@ -54,7 +54,7 @@ async def add_url(request: Request, response_class=HTMLResponse):
 
 
 @app.get("/{slug}")
-async def index_w_slug(request: Request, slug: str):
+async def redirect_by_slug(slug: str):
     try:
         url = await get_url_by_slug(slug)
     except ValueError as e:
