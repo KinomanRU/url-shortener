@@ -3,6 +3,7 @@ import logging
 import sys
 from contextlib import asynccontextmanager
 
+import uvicorn
 from fastapi import FastAPI, Request, HTTPException, status
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
