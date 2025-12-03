@@ -15,13 +15,14 @@ new_session = async_sessionmaker(
 )
 
 
-async def ddl():
-    async with engine.begin() as conn:
-        # await conn.run_sync(Base.metadata.drop_all)
-        await conn.run_sync(Base.metadata.create_all)
+async def drop_all():
+    if input("Are you sure you want to drop all tables? [y/N]: \n").lower() == "y":
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.drop_all)
+            print("All tables dropped")
 
 
 if __name__ == "__main__":
     if sys.platform == "win32":
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    asyncio.run(ddl())
+    asyncio.run(drop_all())
