@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import sys
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, HTTPException, status
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
@@ -9,13 +10,23 @@ from fastapi.templating import Jinja2Templates
 
 import log_utils
 from config import BASE_DIR
+from db import engine
+from models import Base
 from schemas import LinkSchema
 from service import get_slug_by_url, add_url_to_db, get_url_by_slug
 
 log = logging.getLogger(name=__name__)
 log_utils.init_logging()
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
