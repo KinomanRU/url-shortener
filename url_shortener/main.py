@@ -3,9 +3,8 @@ import logging
 import sys
 from contextlib import asynccontextmanager
 
-import uvicorn
 from fastapi import FastAPI, Request, HTTPException, status
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -33,10 +32,7 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 
 @app.get("/")
-async def index(request: Request, slug: str = ""):
-    url = ""
-    if slug:
-        url = await get_url_by_slug(slug)
+async def index(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="index.html",
@@ -75,7 +71,6 @@ async def redirect_by_slug(slug: str):
 
 
 if __name__ == "__main__":
-    # uvicorn.run("main:app", reload=True)
     if sys.platform == "win32":
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     print(asyncio.run(get_slug_by_url("https://www.google.com/")))
