@@ -71,6 +71,4 @@ async def redirect_by_slug(slug: str):
 
 
 if __name__ == "__main__":
-    if sys.platform == "win32":
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     print(asyncio.run(get_slug_by_url("https://www.google.com/")))
