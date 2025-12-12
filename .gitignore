@@ -178,7 +178,7 @@ dmypy.json
 # pytype static type analyzer
 .pytype/
 
-# Cython debug symbols
+# Cython show_sql symbols
 cython_debug/
 
 # PyCharm
