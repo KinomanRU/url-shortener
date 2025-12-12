@@ -1,18 +1,26 @@
 import asyncio
-import sys
+import logging
 
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 
 from config import config
 from models import Base
 
-engine = create_async_engine(config.get("DB", "URL"))
+show_sql: bool = config.getboolean("Debug", "Show_SQL")
+
+engine = create_async_engine(
+    config.get("DB", "URL"),
+    echo=show_sql,
+)
 
 new_session = async_sessionmaker(
     bind=engine,
     expire_on_commit=False,
     autoflush=False,
 )
+
+if show_sql:
+    logging.getLogger("sqlalchemy.engine.Engine").handlers = [logging.NullHandler()]
 
 
 async def drop_all():
