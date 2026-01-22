@@ -26,3 +26,4 @@ services:
 volumes:
     postgres:
     redis:
+#fix
