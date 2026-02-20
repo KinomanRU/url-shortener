@@ -1,28 +1,28 @@
 services:
-  postgres:
-    container_name: postgres
-    environment:
-      - POSTGRES_PASSWORD=postgres
-      - PGDATA=/var/lib/postgresql/18/docker
-    volumes:
-      - postgres:/var/lib/postgresql
-    ports:
-      - "5432:5432"
-    image: postgres:18
-    shm_size: 128mb
-  redis:
-    container_name: redis
-    volumes:
-      - redis:/data
-    image: redis:8
-    ports:
-      - "6379:6379"
-  redis-gui:
-    container_name: redis-gui
-    image: redis/redisinsight
-    ports:
-      - "5540:5540"
+    postgres:
+        container_name: postgres
+        environment:
+            - POSTGRES_PASSWORD=postgres
+            - PGDATA=/var/lib/postgresql/18/docker
+        volumes:
+            - postgres:/var/lib/postgresql
+        ports:
+            - "5432:5432"
+        image: postgres:18
+        shm_size: 128mb
+    redis:
+        container_name: redis
+        volumes:
+            - redis:/data
+        image: redis:8
+        ports:
+            - "6379:6379"
+    redis-gui:
+        container_name: redis-gui
+        image: redis/redisinsight
+        ports:
+            - "5540:5540"
 
 volumes:
-  postgres:
-  redis:
+    postgres:
+    redis:
